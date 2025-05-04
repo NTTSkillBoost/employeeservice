@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- Criação da tabela funcionario
 CREATE TABLE tb_employee (
     id UUID PRIMARY KEY,
