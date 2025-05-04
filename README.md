@@ -11,3 +11,4 @@ curl http://localhost:8881/api/v3/api-docs.yaml -o openapi.yaml
 
 
 # employeeservice
+versão com application properties sem config server
