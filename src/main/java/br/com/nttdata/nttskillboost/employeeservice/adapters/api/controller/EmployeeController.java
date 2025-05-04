@@ -9,11 +9,14 @@ import br.com.nttdata.nttskillboost.employeeservice.application.GetEmployeeServi
 import br.com.nttdata.nttskillboost.employeeservice.application.UpdateEmployeeService;
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.Employee;
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.Status;
+import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,13 +101,17 @@ public class EmployeeController {
     }
 
     public ResponseEntity<EmployeeResponse> fallbackCreate(EmployeeRequest dto, Throwable t) {
-        log.error("Fallback method called due to: {}", t.getMessage());
-
         Employee fallback = new Employee();
         fallback.setName("Fallback " + dto.getName());
         fallback.setEmail("fallback@example.com");
         fallback.setStatus(Status.INACTIVE);
+
         EmployeeResponse response = employeeMapper.toResponse(fallback);
-        return ResponseEntity.ok(response);
+
+        if (t instanceof BulkheadFullException || t instanceof CallNotPermittedException) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }
