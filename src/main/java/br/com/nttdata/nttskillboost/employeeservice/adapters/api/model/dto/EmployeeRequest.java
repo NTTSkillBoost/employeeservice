@@ -4,8 +4,6 @@ import br.com.nttdata.nttskillboost.employeeservice.domain.entity.EmployeePositi
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.EmployeeStatus;
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.PersonType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
