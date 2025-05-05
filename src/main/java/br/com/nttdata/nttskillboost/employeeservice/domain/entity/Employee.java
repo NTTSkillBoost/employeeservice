@@ -59,6 +59,11 @@ public class Employee extends AuditDomain {
     private EmployeeStatus employeeStatus;
 
     @Schema(description = "ID do Edereço no sistema de terceiros", example = "123e4567-e89b-12d3-a456-426614174000")
+    @Column(name = "person_type")
+    @Enumerated(EnumType.STRING)
+    private PersonType personType;
+
+    @Schema(description = "ID do Edereço no sistema de terceiros", example = "123e4567-e89b-12d3-a456-426614174000")
     @Column(name = "hiring_date")
     private LocalDate hiringDate;
 }

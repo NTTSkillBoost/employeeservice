@@ -131,6 +131,7 @@ resilience4j:
     instances:
       employeeService:
         max-concurrent-calls: 5
+        max-wait-duration: 1000ms
 
 eureka:
   client:

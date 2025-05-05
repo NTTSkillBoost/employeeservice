@@ -12,6 +12,7 @@ import br.com.nttdata.nttskillboost.employeeservice.domain.entity.Status;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class EmployeeRoleController {
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackCreate")
     @Bulkhead(name = "employeeService")
     @PostMapping
-    public ResponseEntity<EmployeeRoleResponse> create(@RequestBody EmployeeRoleRequest dto) {
+    public ResponseEntity<EmployeeRoleResponse> create(@Valid @RequestBody EmployeeRoleRequest dto) {
         // 🔥 Simular falha controlada
         if ("FAIL".equalsIgnoreCase(dto.getRole())) {
             throw new RuntimeException("Falha simulada para teste de Resilience4j.");
@@ -77,7 +78,7 @@ public class EmployeeRoleController {
 
     // 🔄 Atualizar
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeRoleResponse> update(@PathVariable UUID id, @RequestBody EmployeeRoleRequest dto) {
+    public ResponseEntity<EmployeeRoleResponse> update(@PathVariable UUID id, @Valid @RequestBody EmployeeRoleRequest dto) {
         EmployeeRole employeeRole = employeeRoleMapper.toDomain(dto);
         EmployeeRole update = updateEmployeeRoleService.update(id, employeeRole);
         if (update != null) {

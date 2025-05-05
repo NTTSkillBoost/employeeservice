@@ -14,6 +14,7 @@ import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,11 +37,11 @@ public class EmployeeController {
     private final DeleteEmployeeService deleteEmployeeService;
     private final EmployeeMapper employeeMapper;
 
-    @Retry(name = "employeeService", fallbackMethod = "fallbackCreate")
+    @Retry(name = "employeeRoleService", fallbackMethod = "fallbackCreate")
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackCreate")
     @Bulkhead(name = "employeeService")
     @PostMapping
-    public ResponseEntity<EmployeeResponse> create(@RequestBody EmployeeRequest dto) {
+    public ResponseEntity<EmployeeResponse> create(@Valid @RequestBody EmployeeRequest dto) {
         // 🔥 Simular falha controlada
         if ("FAIL".equalsIgnoreCase(dto.getName())) {
             throw new RuntimeException("Falha simulada para teste de Resilience4j.");
@@ -80,7 +81,7 @@ public class EmployeeController {
 
     // 🔄 Atualizar
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> update(@PathVariable UUID id, @RequestBody EmployeeRequest dto) {
+    public ResponseEntity<EmployeeResponse> update(@PathVariable UUID id, @Valid @RequestBody EmployeeRequest dto) {
         Employee employee = employeeMapper.toDomain(dto);
         Employee update = updateEmployeeService.update(id, employee);
         if (update != null) {

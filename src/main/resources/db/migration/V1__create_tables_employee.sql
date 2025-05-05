@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Criação da tabela funcionario
 CREATE TABLE tb_employee (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(255) NOT NULL UNIQUE,
@@ -12,6 +12,7 @@ CREATE TABLE tb_employee (
     employee_position VARCHAR(50),
     employee_status VARCHAR(50),
     hiring_date DATE,
+    person_type VARCHAR(50) NOT NULL,
     status varchar(255) NOT NULL,
     create_by varchar(255) NOT NULL DEFAULT 'system_user',
     created_date timestamp DEFAULT CURRENT_DATE,

@@ -21,6 +21,7 @@ public class EmployeeMapper {
                 .employeeStatus(dto.getEmployeeStatus())
                 .employeePosition(dto.getEmployeePosition())
                 .hiringDate(dto.getHiringDate())
+                .personType(dto.getPersonType())
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class EmployeeMapper {
                 .employeeStatus(employee.getEmployeeStatus())
                 .addressId(employee.getAddressId())
                 .hiringDate(employee.getHiringDate())
+                .personType(employee.getPersonType())
                 .build();
 
     }

@@ -2,6 +2,7 @@ package br.com.nttdata.nttskillboost.employeeservice.adapters.api.model.dto;
 
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.EmployeePosition;
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.EmployeeStatus;
+import br.com.nttdata.nttskillboost.employeeservice.domain.entity.PersonType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -49,6 +50,9 @@ public class EmployeeResponse {
     @Schema(description = "ID do Edereço no sistema de terceiros", example = "123e4567-e89b-12d3-a456-426614174000")
     @Enumerated(EnumType.STRING)
     private EmployeeStatus employeeStatus;
+
+    @Enumerated(EnumType.STRING)
+    private PersonType personType;
 
     @Schema(description = "ID do Edereço no sistema de terceiros", example = "123e4567-e89b-12d3-a456-426614174000")
     private LocalDate hiringDate;
