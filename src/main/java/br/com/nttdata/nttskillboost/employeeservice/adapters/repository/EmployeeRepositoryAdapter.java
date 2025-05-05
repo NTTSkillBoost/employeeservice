@@ -6,7 +6,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,5 +39,11 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryPort {
     @Override
     public List<Employee> findAll() {
         return employeeRepository.findAll();
+    }
+
+    @Override
+    public Employee findByIdAndPersonType(UUID id, String personType) {
+        return employeeRepository.findByIdAndPersonType(id, personType)
+                .orElseThrow(() -> new EntityNotFoundException("Funcionário com ID " + id + " e tipo de pessoa " + personType + " não encontrado"));
     }
 }

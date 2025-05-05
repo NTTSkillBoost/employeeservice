@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,5 +23,9 @@ public class GetEmployeeService implements GetEmployeeUseCase {
     @Override
     public List<Employee> findAll() {
         return employeeRepositoryPort.findAll();
+    }
+
+    public Employee findByIdAndPersonType(UUID id, String personType) {
+        return employeeRepositoryPort.findByIdAndPersonType(id, personType);
     }
 }

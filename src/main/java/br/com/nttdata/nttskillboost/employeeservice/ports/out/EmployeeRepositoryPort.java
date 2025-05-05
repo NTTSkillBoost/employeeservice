@@ -11,4 +11,5 @@ public interface EmployeeRepositoryPort {
     Employee save(Employee employee);
     Employee findById(UUID id);
     List<Employee> findAll();
+    Employee findByIdAndPersonType(UUID id, String personType);
 }

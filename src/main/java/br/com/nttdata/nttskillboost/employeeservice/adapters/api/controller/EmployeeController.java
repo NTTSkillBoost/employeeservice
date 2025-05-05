@@ -70,6 +70,18 @@ public class EmployeeController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{id}/person-type/{personType}")
+    public ResponseEntity<EmployeeResponse> findByIdAndPersonType(@PathVariable UUID id,
+                                                                  @RequestParam String personType)  {
+        Employee employeeById = getEmployeeService.findByIdAndPersonType(id, personType);
+        if (employeeById != null) {
+            EmployeeResponse byId = employeeMapper.toResponse(employeeById);
+            return ResponseEntity.ok(byId);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     // 🔎 Listar todos
     @GetMapping
     public List<EmployeeResponse> listAll() {
