@@ -1,6 +1,7 @@
 package br.com.nttdata.nttskillboost.employeeservice.adapters.repository;
 
 import br.com.nttdata.nttskillboost.employeeservice.domain.entity.Employee;
+import br.com.nttdata.nttskillboost.employeeservice.domain.entity.PersonType;
 import br.com.nttdata.nttskillboost.employeeservice.ports.out.EmployeeRepositoryPort;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,11 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryPort {
 
     @Override
     public Employee findByIdAndPersonType(UUID id, String personType) {
-        return employeeRepository.findByIdAndPersonType(id, personType)
+        if (personType == null || personType.isEmpty()) {
+            throw new IllegalArgumentException("Tipo de pessoa não pode ser nulo ou vazio");
+        }
+        PersonType person = PersonType.fromValue(personType);
+        return employeeRepository.findByIdAndPersonType(id, person)
                 .orElseThrow(() -> new EntityNotFoundException("Funcionário com ID " + id + " e tipo de pessoa " + personType + " não encontrado"));
     }
 }
