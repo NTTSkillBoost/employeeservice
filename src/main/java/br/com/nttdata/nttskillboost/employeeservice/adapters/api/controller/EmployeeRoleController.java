@@ -39,11 +39,6 @@ public class EmployeeRoleController {
     @Bulkhead(name = "employeeService")
     @PostMapping
     public ResponseEntity<EmployeeRoleResponse> create(@Valid @RequestBody EmployeeRoleRequest dto) {
-        // 🔥 Simular falha controlada
-        if ("FAIL".equalsIgnoreCase(dto.getRole())) {
-            throw new RuntimeException("Falha simulada para teste de Resilience4j.");
-        }
-
         EmployeeRole employee = employeeRoleMapper.toDomain(dto);
         EmployeeRole created = createEmployeeRoleService.create(employee);
         if (created == null) {
